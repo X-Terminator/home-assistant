@@ -267,7 +267,7 @@ class MyEldom:
                         # Heater device found, add it to list
                         _id = device.get("realDeviceId")
                         heater = self.heaters.get(_id, Heater())
-                        heater.hw_version = device.get("hwVersion")
+                        heater.hw_version = str(device.get("hwVersion"))
                         heater.id = device.get("id")
                         heater.last_updated = datetime.strptime(
                             device.get("lastDataRefreshDate")[:19], "%Y-%m-%dT%H:%M:%S"
