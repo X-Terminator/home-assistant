@@ -73,6 +73,7 @@ FLOWS = [
     "ecobee",
     "econet",
     "efergy",
+    "eldom",
     "elgato",
     "elkm1",
     "emonitor",
