@@ -269,9 +269,14 @@ class MyEldom:
                         heater = self.heaters.get(_id, Heater())
                         heater.hw_version = str(device.get("hwVersion"))
                         heater.id = device.get("id")
-                        heater.last_updated = datetime.strptime(
-                            device.get("lastDataRefreshDate")[:19], "%Y-%m-%dT%H:%M:%S"
-                        )
+                        if device.get("lastDataRefreshDate"):
+                            heater.last_updated = datetime.strptime(
+                                device.get("lastDataRefreshDate")[:19],
+                                "%Y-%m-%dT%H:%M:%S",
+                            )
+                            heater.available = True
+                        else:
+                            heater.available = False
                         heater.name = device.get("name")
                         heater.real_device_id = device.get("realDeviceId")
                         heater.swVersion = device.get("swVersion")
@@ -311,7 +316,13 @@ class MyEldom:
             heater.energy_day = float(heater_status_json.get("EnergyD"))
             heater.energy_night = float(heater_status_json.get("EnergyN"))
             heater.energy_total = float(heater.energy_day) + float(heater.energy_night)
-            heater.available = True
+            if heater_status_json.get("LastRefreshDate"):
+                heater.last_updated = datetime.strptime(
+                    heater_status_json.get("LastRefreshDate")[:19], "%Y-%m-%dT%H:%M:%S"
+                )
+                heater.available = True
+            else:
+                heater.available = False
             return True
         else:
             heater.available = False
